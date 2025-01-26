@@ -1,3 +1,5 @@
+import { markdownTable } from "markdown-table";
+
 import { richTextsToMarkdown } from "./rich_text";
 import { BlockObjectResponseWithChildren, OptionsType } from "./types";
 import { downloadImage, throwNotSupportedError } from "./utils";
@@ -60,6 +62,10 @@ async function getParentText(
       }
     case "toggle":
       return richTextsToMarkdown(block.toggle.rich_text);
+    case "file":
+      return block.file.name;
+    case "table":
+      return "";
     case "audio":
     case "bookmark":
     case "breadcrumb":
@@ -68,11 +74,9 @@ async function getParentText(
     case "column":
     case "column_list":
     case "embed":
-    case "file":
     case "link_preview":
     case "link_to_page":
     case "pdf":
-    case "table":
     case "table_of_contents":
     case "table_row":
     case "template":
@@ -82,10 +86,31 @@ async function getParentText(
   }
 }
 
+function tableToMarkdown(
+  block: Extract<BlockObjectResponseWithChildren, { type: "table" }>
+) {
+  const rowBlocks = block.children.filter(
+    (block) => "type" in block && block.type === "table_row"
+  );
+  if (rowBlocks.length !== block.children.length) {
+    throw new Error("Unexpedted block in table");
+  }
+
+  const rows = rowBlocks.map((rowBlock) => {
+    return rowBlock.table_row.cells.map((cell) => richTextsToMarkdown(cell));
+  });
+
+  return markdownTable(rows);
+}
+
 async function getChildrenText(
   block: BlockObjectResponseWithChildren,
   options?: OptionsType
 ) {
+  if ("type" in block && block.type === "table") {
+    return tableToMarkdown(block);
+  }
+
   const isQuote =
     "type" in block && (block.type === "quote" || block.type === "callout");
 

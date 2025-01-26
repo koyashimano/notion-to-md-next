@@ -53,6 +53,18 @@ export default function Markdown({ markdown }: { markdown: string }) {
           ),
           // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
           img: (props) => <img className="my-4" {...props} />,
+          table: (props) => (
+            <div className="overflow-x-auto">
+              <table className="border" {...props} />
+            </div>
+          ),
+          thead: (props) => <thead className="bg-gray-300 border" {...props} />,
+          tbody: (props) => <tbody className="border" {...props} />,
+          tr: (props) => <tr className="border" {...props} />,
+          th: (props) => (
+            <th className="border p-2 font-bold text-left" {...props} />
+          ),
+          td: (props) => <td className="border p-2" {...props} />,
         }}
       >
         {markdown}

@@ -31,7 +31,7 @@ function sanitizeFilename(before: string) {
 
 export async function getFileName(pageId: string, notion: Client) {
   const pageTitle = await fetchPageTitleText(pageId, notion);
-  return `${sanitizeFilename(pageTitle)}.md`;
+  return sanitizeFilename(pageTitle);
 }
 
 export async function downloadImage(url: string, blockId: string) {

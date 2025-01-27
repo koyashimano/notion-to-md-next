@@ -1,13 +1,20 @@
 import rehypeKatex from "@/customRehypeKatex";
+import { Ref } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 
 import "katex/dist/katex.min.css";
 
-export default function Markdown({ markdown }: { markdown: string }) {
+export default function Markdown({
+  markdown,
+  ref,
+}: {
+  markdown: string;
+  ref?: Ref<HTMLDivElement>;
+}) {
   return (
-    <div className="bg-white p-4 rounded">
+    <div ref={ref} className="bg-white p-4 rounded">
       <ReactMarkdown
         remarkPlugins={[remarkMath, remarkGfm]}
         rehypePlugins={[rehypeKatex]}

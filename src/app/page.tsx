@@ -3,6 +3,7 @@
 import { htmlToPdf } from "@/actions/html_to_pdf";
 import { notionToMarkdownAction } from "@/actions/notion_to_markdown";
 import Markdown from "@/components/Markdown";
+import { getHtml } from "@/utils";
 import { useActionState, useRef } from "react";
 
 export default function Page() {
@@ -32,6 +33,32 @@ export default function Page() {
       const element = document.createElement("a");
       element.href = url;
       element.download = `${fileName}.pdf`;
+      element.click();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const downloadHtml = (fileName: string) => {
+    try {
+      const html = markdownRef.current?.outerHTML;
+      if (!html) {
+        return;
+      }
+      const css = Array.from(document.styleSheets)
+        .map((sheet) =>
+          Array.from(sheet.cssRules)
+            .map((rule) => rule.cssText)
+            .join("")
+        )
+        .join("");
+
+      const htmlContent = getHtml(html, css);
+      const file = new Blob([htmlContent], { type: "text/html" });
+      const url = URL.createObjectURL(file);
+      const element = document.createElement("a");
+      element.href = url;
+      element.download = `${fileName}.html`;
       element.click();
     } catch (e) {
       console.error(e);
@@ -103,6 +130,12 @@ export default function Page() {
             className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           >
             Markdownをダウンロード
+          </button>
+          <button
+            onClick={() => downloadHtml(result.fileName)}
+            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+          >
+            HTMLをダウンロード
           </button>
         </div>
       )}

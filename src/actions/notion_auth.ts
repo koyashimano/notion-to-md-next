@@ -1,6 +1,6 @@
 "use server";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/auth";
 import { prisma } from "@/db";
 import { randomBytes } from "crypto";
 import { redirect } from "next/navigation";

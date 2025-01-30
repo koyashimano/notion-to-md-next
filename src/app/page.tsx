@@ -1,6 +1,7 @@
 "use client";
 
 import { htmlToPdf } from "@/actions/html_to_pdf";
+import notionAuth from "@/actions/notion_auth";
 import { notionToMarkdownAction } from "@/actions/notion_to_markdown";
 import Markdown from "@/components/Markdown";
 import { getHtml } from "@/utils";
@@ -70,7 +71,15 @@ export default function Page() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-end gap-4 bg-gray-100">
-        {session && <p className="text-gray-700">{session.user?.name}</p>}
+        <form action={notionAuth}>
+          <button
+            type="submit"
+            className="text-indigo-600 hover:text-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Notionと連携
+          </button>
+        </form>
+        {session && <p className="text-gray-700">{session.user.name}</p>}
         <button
           className="text-indigo-600 hover:text-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           onClick={() => void signOut()}

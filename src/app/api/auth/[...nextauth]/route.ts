@@ -1,9 +1,9 @@
 import { prisma } from "@/db";
 import bcrypt from "bcrypt";
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-const handler = NextAuth({
+export const authOptions = {
   pages: {
     signIn: "/login",
     newUser: "/sign_up",
@@ -32,6 +32,23 @@ const handler = NextAuth({
       },
     }),
   ],
-});
+  callbacks: {
+    async jwt({ token, user }) {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      if (user?.id) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token.id) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
+  },
+} satisfies NextAuthOptions;
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

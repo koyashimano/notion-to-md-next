@@ -1,3 +1,5 @@
+import { User } from "@prisma/client";
+
 export type State = {
   data?: {
     url?: string;
@@ -36,3 +38,9 @@ export type SignUpState = {
     noField?: string[];
   };
 };
+
+declare module "next-auth" {
+  interface Session {
+    user: User;
+  }
+}

@@ -85,7 +85,7 @@ export default function Page() {
             type="text"
             name="url"
             defaultValue={state.data?.url}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           />
           {!isPending && state.errors?.url && (
             <p className="mt-2 text-sm text-red-600">{state.errors.url}</p>
@@ -97,7 +97,7 @@ export default function Page() {
             type="password"
             name="auth"
             defaultValue={state.data?.auth}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           />
           {!isPending && state.errors?.auth && (
             <p className="mt-2 text-sm text-red-600">{state.errors.auth}</p>
@@ -105,7 +105,7 @@ export default function Page() {
         </label>
         <button
           type="submit"
-          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 disabled:opacity-50"
+          className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:opacity-50"
           disabled={isPending}
         >
           送信
@@ -116,15 +116,15 @@ export default function Page() {
       </form>
 
       {isPending && (
-        <div className="flex justify-center mt-4">
-          <div className="w-5 h-5 border-4 border-t-4 border-t-indigo-600 border-gray-200 rounded-full animate-spin" />
+        <div className="mt-4 flex justify-center">
+          <div className="h-5 w-5 animate-spin rounded-full border-4 border-t-4 border-gray-200 border-t-indigo-600" />
         </div>
       )}
       {!isPending && result && (
         <div className="flex justify-end gap-2">
           <button
             onClick={() => void downloadPdf(result.fileName)}
-            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
           >
             PDFをダウンロード
           </button>
@@ -138,13 +138,13 @@ export default function Page() {
               element.download = `${result.fileName}.md`;
               element.click();
             }}
-            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
           >
             Markdownをダウンロード
           </button>
           <button
             onClick={() => downloadHtml(result.fileName)}
-            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
           >
             HTMLをダウンロード
           </button>

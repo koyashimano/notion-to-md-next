@@ -2,6 +2,7 @@ import { FlatCompat } from "@eslint/eslintrc";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import eslintPluginImport from "eslint-plugin-import";
+import eslintPluginTailwindcss from "eslint-plugin-tailwindcss";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -27,11 +28,13 @@ const eslintConfig = [
     plugins: {
       "@typescript-eslint": tsPlugin,
       import: eslintPluginImport,
+      tailwindcss: eslintPluginTailwindcss,
     },
     rules: {
       "@typescript-eslint/no-misused-promises": "error",
       "@typescript-eslint/no-floating-promises": "error",
       "@typescript-eslint/no-unnecessary-condition": "error",
+      "no-console": "warn",
       "import/order": [
         "error",
         {
@@ -45,6 +48,7 @@ const eslintConfig = [
         "error",
         { ignoreDeclarationSort: true, ignoreMemberSort: false },
       ],
+      "tailwindcss/classnames-order": "error",
     },
   },
 ];

@@ -14,39 +14,39 @@ export default function Markdown({
   ref?: Ref<HTMLDivElement>;
 }) {
   return (
-    <div ref={ref} className="bg-white p-4 rounded">
+    <div ref={ref} className="rounded bg-white p-4">
       <ReactMarkdown
         remarkPlugins={[remarkMath, remarkGfm]}
         rehypePlugins={[rehypeKatex]}
         components={{
-          h1: (props) => <h1 className="text-3xl font-bold mb-4" {...props} />,
-          h2: (props) => <h2 className="text-2xl font-bold mb-3" {...props} />,
-          h3: (props) => <h3 className="text-xl font-bold mb-2" {...props} />,
-          h4: (props) => <h4 className="text-lg font-bold mb-1" {...props} />,
+          h1: (props) => <h1 className="mb-4 text-3xl font-bold" {...props} />,
+          h2: (props) => <h2 className="mb-3 text-2xl font-bold" {...props} />,
+          h3: (props) => <h3 className="mb-2 text-xl font-bold" {...props} />,
+          h4: (props) => <h4 className="mb-1 text-lg font-bold" {...props} />,
           h5: (props) => <h5 className="text-base font-bold" {...props} />,
           h6: (props) => <h6 className="text-sm font-bold" {...props} />,
           p: (props) => (
-            <p className="text-gray-800 leading-relaxed mb-1" {...props} />
+            <p className="mb-1 leading-relaxed text-gray-800" {...props} />
           ),
-          ul: (props) => <ul className="list-disc ml-6" {...props} />,
-          ol: (props) => <ol className="list-decimal ml-6" {...props} />,
+          ul: (props) => <ul className="ml-6 list-disc" {...props} />,
+          ol: (props) => <ol className="ml-6 list-decimal" {...props} />,
           li: (props) => <li className="mb-1" {...props} />,
           blockquote: (props) => (
             <blockquote
-              className="bg-gray-100 border-l-4 border-gray-500 text-gray-700 p-4 my-4"
+              className="my-4 border-l-4 border-gray-500 bg-gray-100 p-4 text-gray-700"
               {...props}
             />
           ),
           hr: (props) => <hr className="my-4 border-gray-500" {...props} />,
           pre: (props) => (
             <pre
-              className="bg-gray-900 text-white p-4 rounded my-4"
+              className="my-4 rounded bg-gray-900 p-4 text-white"
               {...props}
             />
           ),
           code: (props) => (
             <code
-              className="bg-gray-200 text-red-500 px-1 rounded"
+              className="rounded bg-gray-200 px-1 text-red-500"
               {...props}
             />
           ),
@@ -65,11 +65,11 @@ export default function Markdown({
               <table className="border" {...props} />
             </div>
           ),
-          thead: (props) => <thead className="bg-gray-300 border" {...props} />,
+          thead: (props) => <thead className="border bg-gray-300" {...props} />,
           tbody: (props) => <tbody className="border" {...props} />,
           tr: (props) => <tr className="border" {...props} />,
           th: (props) => (
-            <th className="border p-2 font-bold text-left" {...props} />
+            <th className="border p-2 text-left font-bold" {...props} />
           ),
           td: (props) => <td className="border p-2" {...props} />,
         }}

@@ -4,10 +4,12 @@ import { htmlToPdf } from "@/actions/html_to_pdf";
 import { notionToMarkdownAction } from "@/actions/notion_to_markdown";
 import Markdown from "@/components/Markdown";
 import { getHtml } from "@/utils";
+import { signOut, useSession } from "next-auth/react";
 import { useActionState, useRef } from "react";
 
 export default function Page() {
   const [state, action, isPending] = useActionState(notionToMarkdownAction, {});
+  const { data: session } = useSession();
 
   const markdownRef = useRef<HTMLDivElement>(null);
 
@@ -67,6 +69,15 @@ export default function Page() {
 
   return (
     <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-end gap-4 bg-gray-100">
+        {session && <p className="text-gray-700">{session.user?.name}</p>}
+        <button
+          className="text-indigo-600 hover:text-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          onClick={() => void signOut()}
+        >
+          ログアウト
+        </button>
+      </div>
       <form action={action} className="space-y-4">
         <label className="block">
           NotionページのURL

@@ -10,3 +10,29 @@ export type State = {
     noField?: string[];
   };
 };
+
+export type SignInState = {
+  data?: {
+    email?: string;
+    password?: string;
+  };
+  errors?: {
+    email?: string[];
+    password?: string[];
+    noField?: string[];
+  };
+};
+
+export type SignUpState = {
+  data?: {
+    email?: string;
+    name?: string;
+    password?: string;
+  };
+  errors?: {
+    email?: string[];
+    name?: string[];
+    password?: string[];
+    noField?: string[];
+  };
+};

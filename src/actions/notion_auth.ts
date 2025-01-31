@@ -15,6 +15,9 @@ export default async function notionAuth() {
   }
 
   const state = randomBytes(16).toString("hex");
+  await prisma.notionAuthState.deleteMany({
+    where: { user: { id: userId } },
+  });
   await prisma.notionAuthState.create({
     data: {
       user: { connect: { id: userId } },

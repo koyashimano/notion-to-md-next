@@ -79,7 +79,7 @@ export default function Page() {
             Notionと連携
           </button>
         </form>
-        {session && <p className="text-gray-700">{session.user.name}</p>}
+        {session && <p className="text-gray-700">{session.user?.name}</p>}
         <button
           className="text-indigo-600 hover:text-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           onClick={() => void signOut()}

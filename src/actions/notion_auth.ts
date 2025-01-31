@@ -8,7 +8,7 @@ import { getServerSession } from "next-auth";
 
 export default async function notionAuth() {
   const session = await getServerSession(authOptions);
-  const userId = session?.user.id;
+  const userId = session?.user?.id;
 
   if (!userId) {
     throw new Error("ユーザーが認証されていません。"); // TODO: handle errors

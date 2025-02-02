@@ -49,9 +49,7 @@ async function getParentText(
       return "";
     case "image":
       if (block.image.type === "external") {
-        return `![${richTextsToMarkdown(block.image.caption)}](${
-          block.image.external.url
-        })`;
+        return `![${richTextsToMarkdown(block.image.caption)}](${block.image.external.url})`;
       }
 
       if (saveImage) {
@@ -93,7 +91,7 @@ function tableToMarkdown(
     (block) => "type" in block && block.type === "table_row"
   );
   if (rowBlocks.length !== block.children.length) {
-    throw new Error("Unexpedted block in table");
+    throw new Error("Unexpected block in table");
   }
 
   const rows = rowBlocks.map((rowBlock) => {

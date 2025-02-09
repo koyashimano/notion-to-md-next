@@ -1,72 +1,16 @@
 "use client";
 
-import { htmlToPdf } from "@/actions/html_to_pdf";
 import notionAuth from "@/actions/notion_auth";
 import { notionToMarkdownAction } from "@/actions/notion_to_markdown";
-import Markdown from "@/components/Markdown";
-import { getHtml } from "@/utils";
+import MarkdownContent from "@/components/MarkdownContent";
 import { signOut, useSession } from "next-auth/react";
-import { useActionState, useRef } from "react";
+import { useActionState } from "react";
 
 export default function Page() {
   const [state, action, isPending] = useActionState(notionToMarkdownAction, {});
   const { data: session } = useSession();
 
-  const markdownRef = useRef<HTMLDivElement>(null);
-
   const result = state.result;
-
-  const downloadPdf = async (fileName: string) => {
-    try {
-      const html = markdownRef.current?.outerHTML;
-      if (!html) {
-        return;
-      }
-      const css = Array.from(document.styleSheets)
-        .map((sheet) =>
-          Array.from(sheet.cssRules)
-            .map((rule) => rule.cssText)
-            .join("")
-        )
-        .join("");
-
-      const pdfContent = await htmlToPdf(html, css);
-      const file = new Blob([pdfContent], { type: "application/pdf" });
-      const url = URL.createObjectURL(file);
-      const element = document.createElement("a");
-      element.href = url;
-      element.download = `${fileName}.pdf`;
-      element.click();
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const downloadHtml = (fileName: string) => {
-    try {
-      const html = markdownRef.current?.outerHTML;
-      if (!html) {
-        return;
-      }
-      const css = Array.from(document.styleSheets)
-        .map((sheet) =>
-          Array.from(sheet.cssRules)
-            .map((rule) => rule.cssText)
-            .join("")
-        )
-        .join("");
-
-      const htmlContent = getHtml(html, css);
-      const file = new Blob([htmlContent], { type: "text/html" });
-      const url = URL.createObjectURL(file);
-      const element = document.createElement("a");
-      element.href = url;
-      element.download = `${fileName}.html`;
-      element.click();
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -118,37 +62,10 @@ export default function Page() {
         </div>
       )}
       {!isPending && result && (
-        <div className="flex justify-end gap-2">
-          <button
-            onClick={() => void downloadPdf(result.fileName)}
-            className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-          >
-            PDFをダウンロード
-          </button>
-          <button
-            onClick={() => {
-              const element = document.createElement("a");
-              const file = new Blob([result.markdown], {
-                type: "text/markdown",
-              });
-              element.href = URL.createObjectURL(file);
-              element.download = `${result.fileName}.md`;
-              element.click();
-            }}
-            className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-          >
-            Markdownをダウンロード
-          </button>
-          <button
-            onClick={() => downloadHtml(result.fileName)}
-            className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-          >
-            HTMLをダウンロード
-          </button>
-        </div>
-      )}
-      {!isPending && result && (
-        <Markdown ref={markdownRef} markdown={result.markdown} />
+        <MarkdownContent
+          markdown={result.markdown}
+          fileName={result.fileName}
+        />
       )}
     </div>
   );

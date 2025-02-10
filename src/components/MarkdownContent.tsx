@@ -4,7 +4,8 @@ import Markdown from "@/components/Markdown";
 import { downloadHtml, downloadMarkdown, downloadPdf } from "@/download";
 import useWindowWidth from "@/hooks/useWindowWidth";
 import { useRef, useState } from "react";
-import { FaDownload } from "react-icons/fa";
+
+import DownloadMenu from "./DownloadMenu";
 
 type MarkdownContentProps = {
   markdown: string;
@@ -49,36 +50,19 @@ export default function MarkdownContent({
             拡張子を除く
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <FaDownload className="mr-1 text-green-400" />
-          <button
-            onClick={() =>
-              markdownRef.current &&
-              void downloadPdf(markdownRef.current.outerHTML, fileName)
-            }
-            className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:opacity-50"
-            disabled={!isFileNameValid}
-          >
-            PDF
-          </button>
-          <button
-            onClick={() => downloadMarkdown(markdown, fileName)}
-            className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:opacity-50"
-            disabled={!isFileNameValid}
-          >
-            Markdown
-          </button>
-          <button
-            onClick={() =>
-              markdownRef.current &&
-              downloadHtml(markdownRef.current.outerHTML, fileName)
-            }
-            className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:opacity-50"
-            disabled={!isFileNameValid}
-          >
-            HTML
-          </button>
-        </div>
+        <DownloadMenu
+          downloadPdf={() =>
+            markdownRef.current &&
+            void downloadPdf(markdownRef.current.outerHTML, fileName)
+          }
+          downloadMarkdown={() => void downloadMarkdown(markdown, fileName)}
+          downloadHtml={() =>
+            markdownRef.current &&
+            void downloadHtml(markdownRef.current.outerHTML, fileName)
+          }
+          disabled={!isFileNameValid}
+          isDesktop={isDesktop}
+        />
       </div>
       <div className={"flex px-2" + (isDesktop ? " justify-evenly" : "")}>
         <div className={isDesktop ? "flex-1" : ""}>

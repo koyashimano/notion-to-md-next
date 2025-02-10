@@ -2,6 +2,7 @@
 
 import Markdown from "@/components/Markdown";
 import { downloadHtml, downloadMarkdown, downloadPdf } from "@/download";
+import useWindowWidth from "@/hooks/useWindowWidth";
 import { useRef, useState } from "react";
 import { FaDownload } from "react-icons/fa";
 
@@ -20,6 +21,13 @@ export default function MarkdownContent({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const isFileNameValid = !/\.(md|pdf|html)$/i.test(fileName);
+
+  const windowWidth = useWindowWidth();
+  const [activeTab, setActiveTab] = useState<"markdown" | "preview">(
+    "markdown"
+  );
+
+  const isDesktop = windowWidth > 768;
 
   return (
     <>
@@ -72,13 +80,37 @@ export default function MarkdownContent({
           </button>
         </div>
       </div>
-      <div className="flex min-h-0 flex-1">
-        <div className="flex h-full w-full flex-1 flex-col">
-          <div className="border-b border-gray-300 p-4 pb-2">
-            <button className="rounded-md px-4 py-2 hover:bg-gray-50">
-              Markdown
-            </button>
-          </div>
+      <div className={"flex px-2" + (isDesktop ? " justify-evenly" : "")}>
+        <div className={isDesktop ? "flex-1" : ""}>
+          <button
+            className={
+              "rounded-md px-4 py-2 hover:bg-gray-50" +
+              (!isDesktop && activeTab !== "markdown" ? " text-gray-400" : "")
+            }
+            onClick={() => setActiveTab("markdown")}
+          >
+            Markdown
+          </button>
+        </div>
+        <div className={isDesktop ? "flex-1" : ""}>
+          <button
+            className={
+              "rounded-md px-4 py-2 hover:bg-gray-50" +
+              (!isDesktop && activeTab !== "preview" ? " text-gray-400" : "")
+            }
+            onClick={() => setActiveTab("preview")}
+          >
+            プレビュー
+          </button>
+        </div>
+      </div>
+      <div className="mt-2 flex min-h-0 flex-1 border-t border-gray-300">
+        <div
+          className={
+            "flex h-full w-full flex-1 flex-col" +
+            (!isDesktop && activeTab !== "markdown" ? " hidden" : "")
+          }
+        >
           <textarea
             ref={textareaRef}
             value={markdown}
@@ -86,12 +118,13 @@ export default function MarkdownContent({
             className="w-full flex-1 resize-none rounded-md p-4 focus:outline-none focus:ring-0"
           />
         </div>
-        <div className="flex min-w-0 flex-1 flex-col">
-          <div className="border-b border-gray-300 p-4 pb-2">
-            <button className="rounded-md px-4 py-2 hover:bg-gray-50">
-              プレビュー
-            </button>
-          </div>
+        {isDesktop && <div className="w-px bg-gray-300" />}
+        <div
+          className={
+            "flex min-w-0 flex-1 flex-col" +
+            (!isDesktop && activeTab !== "preview" ? " hidden" : "")
+          }
+        >
           <div className="flex-1 overflow-y-auto">
             <Markdown ref={markdownRef} markdown={markdown} />
           </div>

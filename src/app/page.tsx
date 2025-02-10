@@ -5,6 +5,7 @@ import { notionToMarkdownAction } from "@/actions/notion_to_markdown";
 import MarkdownContent from "@/components/MarkdownContent";
 import { signOut, useSession } from "next-auth/react";
 import { useActionState } from "react";
+import { MdSend } from "react-icons/md";
 
 export default function Page() {
   const [state, action, isPending] = useActionState(notionToMarkdownAction, {});
@@ -13,8 +14,8 @@ export default function Page() {
   const result = state.result;
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-end gap-4 bg-gray-100">
+    <div className="flex h-full flex-col">
+      <div className="flex items-center justify-end gap-4 p-4">
         <form action={notionAuth}>
           <button
             type="submit"
@@ -31,26 +32,28 @@ export default function Page() {
           ログアウト
         </button>
       </div>
-      <form action={action} className="space-y-4">
+      <form action={action} className="space-y-4 p-4">
         <label className="block">
           NotionページのURL
-          <input
-            type="text"
-            name="url"
-            defaultValue={state.data?.url}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          />
+          <div className="mt-2 flex items-center gap-2">
+            <input
+              type="text"
+              name="url"
+              defaultValue={state.data?.url}
+              className="block flex-1 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            />
+            <button
+              type="submit"
+              className="px-4 py-2 text-sm font-medium text-indigo-600 hover:text-indigo-700 disabled:text-gray-400 disabled:opacity-50"
+              disabled={isPending}
+            >
+              <MdSend className="h-6 w-6" aria-label="送信" />
+            </button>
+          </div>
           {!isPending && state.errors?.url && (
             <p className="mt-2 text-sm text-red-600">{state.errors.url}</p>
           )}
         </label>
-        <button
-          type="submit"
-          className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:opacity-50"
-          disabled={isPending}
-        >
-          送信
-        </button>
         {!isPending && state.errors?.noField && (
           <p className="mt-2 text-sm text-red-600">{state.errors.noField}</p>
         )}

@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className="bg-gray-100 p-4">
+      <body className="h-screen overflow-y-hidden">
         <NextAuthProvider>{children}</NextAuthProvider>
       </body>
     </html>

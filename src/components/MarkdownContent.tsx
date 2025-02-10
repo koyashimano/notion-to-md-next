@@ -3,7 +3,7 @@
 import { htmlToPdf } from "@/actions/html_to_pdf";
 import Markdown from "@/components/Markdown";
 import { getHtml } from "@/utils";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { FaDownload } from "react-icons/fa";
 
 type MarkdownContentProps = {
@@ -21,19 +21,6 @@ export default function MarkdownContent({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const isFileNameValid = !/\.(md|pdf|html)$/i.test(fileName);
-
-  useEffect(() => {
-    const debounceTimeout = setTimeout(() => {
-      if (
-        textareaRef.current &&
-        textareaRef.current.scrollHeight > textareaRef.current.clientHeight
-      ) {
-        textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-      }
-    }, 300);
-
-    return () => clearTimeout(debounceTimeout);
-  }, [markdown]);
 
   const downloadPdf = async () => {
     try {
@@ -97,7 +84,7 @@ export default function MarkdownContent({
 
   return (
     <>
-      <div className="flex items-start justify-between gap-2">
+      <div className="flex items-start justify-between gap-2 p-4">
         <div className="flex flex-1 flex-col gap-2">
           <label htmlFor="fileName">ファイル名</label>
           <input
@@ -140,15 +127,29 @@ export default function MarkdownContent({
           </button>
         </div>
       </div>
-      <div className="flex gap-4">
-        <textarea
-          ref={textareaRef}
-          value={markdown}
-          onChange={(e) => setMarkdown(e.target.value)}
-          className="mb-4 w-full flex-1 resize-none rounded-md p-2 focus:outline-none focus:ring-0"
-        />
-        <div className="flex-1">
-          <Markdown ref={markdownRef} markdown={markdown} />
+      <div className="flex min-h-0 flex-1">
+        <div className="flex h-full w-full flex-1 flex-col">
+          <div className="border-b border-gray-300 p-4 pb-2">
+            <button className="rounded-md px-4 py-2 hover:bg-gray-50">
+              Markdown
+            </button>
+          </div>
+          <textarea
+            ref={textareaRef}
+            value={markdown}
+            onChange={(e) => setMarkdown(e.target.value)}
+            className="w-full flex-1 resize-none rounded-md p-4 focus:outline-none focus:ring-0"
+          />
+        </div>
+        <div className="flex min-w-0 flex-1 flex-col">
+          <div className="border-b border-gray-300 p-4 pb-2">
+            <button className="rounded-md px-4 py-2 hover:bg-gray-50">
+              プレビュー
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto">
+            <Markdown ref={markdownRef} markdown={markdown} />
+          </div>
         </div>
       </div>
     </>

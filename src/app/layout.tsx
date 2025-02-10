@@ -1,6 +1,7 @@
 import NextAuthProvider from "@/providers/NextAuthProvider";
 import type { Metadata } from "next";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Notion to Markdown",
@@ -15,7 +16,10 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className="h-screen overflow-y-hidden">
-        <NextAuthProvider>{children}</NextAuthProvider>
+        <NextAuthProvider>
+          {children}
+          <Toaster />
+        </NextAuthProvider>
       </body>
     </html>
   );

@@ -24,24 +24,24 @@ export default function DownloadMenu({
 
   return isDesktop ? (
     <div className="flex items-center gap-2">
-      <FaDownload className="mr-1 text-green-400" />
+      <FaDownload className="mr-1 text-gray-600" />
       <button
         onClick={downloadPdf}
-        className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:opacity-50"
+        className="inline-flex justify-center rounded-md border border-transparent bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:opacity-50"
         disabled={disabled}
       >
         PDF
       </button>
       <button
         onClick={downloadMarkdown}
-        className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:opacity-50"
+        className="inline-flex justify-center rounded-md border border-transparent bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:opacity-50"
         disabled={disabled}
       >
         Markdown
       </button>
       <button
         onClick={downloadHtml}
-        className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:opacity-50"
+        className="inline-flex justify-center rounded-md border border-transparent bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:opacity-50"
         disabled={disabled}
       >
         HTML
@@ -49,7 +49,7 @@ export default function DownloadMenu({
     </div>
   ) : (
     <button ref={menuButtonRef} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-      <FaDownload className="mr-1 text-green-400" />
+      <FaDownload className="mr-1 text-gray-600" />
       {isMenuOpen &&
         createPortal(
           <div>

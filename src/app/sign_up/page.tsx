@@ -69,14 +69,11 @@ export default function SignUpPage() {
         )}
         <button
           type="submit"
-          className="focus:shadow-outline w-fit rounded bg-indigo-600 px-4 py-2 font-bold text-white hover:bg-indigo-700 focus:outline-none"
+          className="focus:shadow-outline w-fit rounded bg-gray-900 px-4 py-2 font-bold text-white hover:bg-gray-800 focus:outline-none"
         >
           登録
         </button>
-        <Link
-          href="/login"
-          className="block text-indigo-600 hover:text-indigo-800"
-        >
+        <Link href="/login" className="block text-gray-900 hover:text-gray-800">
           ログイン
         </Link>
       </form>

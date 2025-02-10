@@ -1,8 +1,7 @@
 "use client";
 
-import { htmlToPdf } from "@/actions/html_to_pdf";
 import Markdown from "@/components/Markdown";
-import { getHtml } from "@/utils";
+import { downloadHtml, downloadMarkdown, downloadPdf } from "@/download";
 import { useRef, useState } from "react";
 import { FaDownload } from "react-icons/fa";
 
@@ -21,66 +20,6 @@ export default function MarkdownContent({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const isFileNameValid = !/\.(md|pdf|html)$/i.test(fileName);
-
-  const downloadPdf = async () => {
-    try {
-      const html = markdownRef.current?.outerHTML;
-      if (!html) {
-        return;
-      }
-      const css = Array.from(document.styleSheets)
-        .map((sheet) =>
-          Array.from(sheet.cssRules)
-            .map((rule) => rule.cssText)
-            .join("")
-        )
-        .join("");
-
-      const pdfContent = await htmlToPdf(html, css);
-      const file = new Blob([pdfContent], { type: "application/pdf" });
-      const url = URL.createObjectURL(file);
-      const element = document.createElement("a");
-      element.href = url;
-      element.download = `${fileName}.pdf`;
-      element.click();
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const downloadHtml = () => {
-    try {
-      const html = markdownRef.current?.outerHTML;
-      if (!html) {
-        return;
-      }
-      const css = Array.from(document.styleSheets)
-        .map((sheet) =>
-          Array.from(sheet.cssRules)
-            .map((rule) => rule.cssText)
-            .join("")
-        )
-        .join("");
-
-      const htmlContent = getHtml(html, css);
-      const file = new Blob([htmlContent], { type: "text/html" });
-      const url = URL.createObjectURL(file);
-      const element = document.createElement("a");
-      element.href = url;
-      element.download = `${fileName}.html`;
-      element.click();
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const downloadMarkdown = () => {
-    const element = document.createElement("a");
-    const file = new Blob([markdown], { type: "text/markdown" });
-    element.href = URL.createObjectURL(file);
-    element.download = `${fileName}.md`;
-    element.click();
-  };
 
   return (
     <>
@@ -105,21 +44,27 @@ export default function MarkdownContent({
         <div className="flex items-center gap-2">
           <FaDownload className="mr-1 text-green-400" />
           <button
-            onClick={() => void downloadPdf()}
+            onClick={() =>
+              markdownRef.current &&
+              void downloadPdf(markdownRef.current.outerHTML, fileName)
+            }
             className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:opacity-50"
             disabled={!isFileNameValid}
           >
             PDF
           </button>
           <button
-            onClick={downloadMarkdown}
+            onClick={() => downloadMarkdown(markdown, fileName)}
             className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:opacity-50"
             disabled={!isFileNameValid}
           >
             Markdown
           </button>
           <button
-            onClick={() => downloadHtml()}
+            onClick={() =>
+              markdownRef.current &&
+              downloadHtml(markdownRef.current.outerHTML, fileName)
+            }
             className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:opacity-50"
             disabled={!isFileNameValid}
           >

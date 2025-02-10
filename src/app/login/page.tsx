@@ -58,12 +58,9 @@ export default function LoginPage() {
   }, [sessionStatus, router]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
+    <div className="flex min-h-screen flex-col items-center justify-center">
       <h1 className="mb-4 text-2xl font-bold">ログイン</h1>
-      <form
-        action={action}
-        className="flex w-full max-w-sm flex-col gap-4 rounded bg-white px-8 pb-8 pt-6 shadow-md"
-      >
+      <form action={action} className="flex w-full max-w-sm flex-col gap-4">
         <div>
           <label
             htmlFor="email"
@@ -105,7 +102,7 @@ export default function LoginPage() {
         )}
         <button
           type="submit"
-          className="focus:shadow-outline rounded bg-indigo-600 px-4 py-2 font-bold text-white hover:bg-indigo-700 focus:outline-none"
+          className="focus:shadow-outline w-fit rounded bg-indigo-600 px-4 py-2 font-bold text-white hover:bg-indigo-700 focus:outline-none"
         >
           ログイン
         </button>

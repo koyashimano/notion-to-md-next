@@ -69,7 +69,8 @@ export default function SignUpPage() {
         )}
         <button
           type="submit"
-          className="focus:shadow-outline w-fit rounded bg-gray-900 px-4 py-2 font-bold text-white hover:bg-gray-800 focus:outline-none"
+          disabled={isPending}
+          className="focus:shadow-outline w-fit rounded bg-gray-900 px-4 py-2 font-bold text-white hover:bg-gray-800 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-600 disabled:opacity-50"
         >
           登録
         </button>

@@ -114,6 +114,15 @@ export default function LoginPage() {
           新規登録
         </Link>
       </form>
+      <div className="mt-4 text-sm text-gray-600">
+        <Link href="/terms" className="text-gray-600">
+          利用規約
+        </Link>
+        {" | "}
+        <Link href="/privacy" className="text-gray-600">
+          プライバシーポリシー
+        </Link>
+      </div>
     </div>
   );
 }

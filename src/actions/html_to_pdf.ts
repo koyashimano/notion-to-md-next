@@ -5,6 +5,9 @@ import chromium from "@sparticuz/chromium";
 import puppeteer from "puppeteer-core";
 
 export async function htmlToPdf(html: string, css: string) {
+  if (process.env.CHROMIUM_FONT) {
+    await chromium.font(process.env.CHROMIUM_FONT);
+  }
   const browser = await puppeteer.launch(
     process.env.CHROME_EXECUTABLE_PATH
       ? {

@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import { FaDownload } from "react-icons/fa";
+
+import ButtonMenu from "./ButtonMenu";
 
 type DownloadMenuProps = {
   downloadPdf: () => void;
@@ -19,9 +19,6 @@ export default function DownloadMenu({
   disabled,
   isDesktop,
 }: DownloadMenuProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
-
   return isDesktop ? (
     <div className="flex items-center gap-2">
       <FaDownload className="mr-1 text-gray-600" />
@@ -48,61 +45,15 @@ export default function DownloadMenu({
       </button>
     </div>
   ) : (
-    <button ref={menuButtonRef} onClick={() => setIsMenuOpen(!isMenuOpen)}>
+    <ButtonMenu
+      disabled={disabled}
+      options={[
+        { label: "PDF", onClick: downloadPdf },
+        { label: "Markdown", onClick: downloadMarkdown },
+        { label: "HTML", onClick: downloadHtml },
+      ]}
+    >
       <FaDownload className="mr-1 text-gray-600" />
-      {isMenuOpen &&
-        createPortal(
-          <div>
-            <div
-              className="fixed inset-0 z-10"
-              onClick={() => setIsMenuOpen(false)}
-            />
-            <div
-              className="absolute z-20 mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
-              style={{
-                top: menuButtonRef.current?.getBoundingClientRect().bottom,
-                right:
-                  document.body.getBoundingClientRect().width -
-                  (menuButtonRef.current?.getBoundingClientRect().right ?? 0),
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="py-1" role="menu">
-                <button
-                  onClick={() => {
-                    downloadPdf();
-                    setIsMenuOpen(false);
-                  }}
-                  className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-                  role="menuitem"
-                >
-                  PDF
-                </button>
-                <button
-                  onClick={() => {
-                    downloadMarkdown();
-                    setIsMenuOpen(false);
-                  }}
-                  className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-                  role="menuitem"
-                >
-                  Markdown
-                </button>
-                <button
-                  onClick={() => {
-                    downloadHtml();
-                    setIsMenuOpen(false);
-                  }}
-                  className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-                  role="menuitem"
-                >
-                  HTML
-                </button>
-              </div>
-            </div>
-          </div>,
-          document.body
-        )}
-    </button>
+    </ButtonMenu>
   );
 }

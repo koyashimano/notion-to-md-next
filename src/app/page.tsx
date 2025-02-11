@@ -2,14 +2,17 @@
 
 import notionAuth from "@/actions/notion_auth";
 import { notionToMarkdownAction } from "@/actions/notion_to_markdown";
+import ButtonMenu from "@/components/ButtonMenu";
 import MarkdownContent from "@/components/MarkdownContent";
+import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { useActionState } from "react";
-import { MdSend } from "react-icons/md";
+import { MdMenu, MdSend } from "react-icons/md";
 
 export default function Page() {
   const [state, action, isPending] = useActionState(notionToMarkdownAction, {});
   const { data: session } = useSession();
+  const router = useRouter();
 
   const result = state.result;
 
@@ -28,12 +31,18 @@ export default function Page() {
               </button>
             </form>
             {session && <p className="text-gray-900">{session.user?.name}</p>}
-            <button
-              className="rounded-md px-4 py-2 text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400"
-              onClick={() => void signOut()}
+            <ButtonMenu
+              options={[
+                { label: "ログアウト", onClick: () => void signOut() },
+                { label: "利用規約", onClick: () => router.push("/terms") },
+                {
+                  label: "プライバシーポリシー",
+                  onClick: () => router.push("/privacy"),
+                },
+              ]}
             >
-              ログアウト
-            </button>
+              <MdMenu className="h-6 w-6" aria-label="メニュー" />
+            </ButtonMenu>
           </div>
         </div>
       </header>

@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+      target: development
+    ports:
+      - "3001:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      NODE_ENV: development
+    container_name: notion-to-md_web
+
+  web-prod:
+    build:
+      context: .
+      target: production
+    ports:
+      - "8080:3000"
+    environment:
+      NODE_ENV: production
+    container_name: notion-to-md_web-prod

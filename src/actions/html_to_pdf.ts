@@ -1,25 +1,13 @@
 "use server";
 
 import { getHtml } from "@/utils";
-import chromium from "@sparticuz/chromium";
 import puppeteer from "puppeteer-core";
 
 export async function htmlToPdf(html: string, css: string) {
-  if (process.env.CHROMIUM_FONT) {
-    await chromium.font(process.env.CHROMIUM_FONT);
-  }
-  const browser = await puppeteer.launch(
-    process.env.CHROME_EXECUTABLE_PATH
-      ? {
-          executablePath: process.env.CHROME_EXECUTABLE_PATH,
-        }
-      : {
-          args: [...chromium.args, "--no-sandbox"],
-          defaultViewport: chromium.defaultViewport,
-          executablePath: await chromium.executablePath(),
-          headless: true,
-        }
-  );
+  const browser = await puppeteer.launch({
+    executablePath: process.env.CHROME_EXECUTABLE_PATH,
+    args: ["--no-sandbox"],
+  });
   const page = await browser.newPage();
 
   await page.setContent(getHtml(html, css));

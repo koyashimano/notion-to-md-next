@@ -10,7 +10,7 @@ const pool = new Pool({
 export default class DB {
   static async getUserFromId(id: string) {
     const result = await pool.query<User>(
-      'SELECT * FROM "User" WHERE "id" = $1',
+      'SELECT "id", "email", "name", "notion_token", "NotionAuthState" FROM "User" WHERE "id" = $1',
       [id]
     );
     return result.rows.at(0);
@@ -18,14 +18,16 @@ export default class DB {
 
   static async getUserFromEmail(email: string) {
     const result = await pool.query<User>(
-      'SELECT * FROM "User" WHERE "email" = $1',
+      'SELECT "id", "email", "name", "notion_token", "NotionAuthState" FROM "User" WHERE "email" = $1',
       [email]
     );
     return result.rows.at(0);
   }
 
   static async createUser(
-    user: Omit<User, "id" | "notion_token" | "NotionAuthState">
+    user: Omit<User, "id" | "notion_token" | "NotionAuthState"> & {
+      password: string;
+    }
   ) {
     await pool.query(
       'INSERT INTO "User" ("id", "email", "name", "password") VALUES ($1, $2, $3, $4)',

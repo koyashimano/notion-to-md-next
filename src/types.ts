@@ -4,7 +4,6 @@ export type User = {
   id: string;
   email: string;
   name: string;
-  password: string;
   notion_token?: string;
   NotionAuthState?: NotionAuthState;
 };

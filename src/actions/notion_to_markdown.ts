@@ -1,7 +1,7 @@
 "use server";
 
 import { authOptions } from "@/auth";
-import { prisma } from "@/db";
+import DB from "@/db";
 import { notionToMarkdown } from "@/notion-to-md/notion_to_markdown";
 import { getFileName, getPageId } from "@/notion-to-md/utils";
 import { State } from "@/types";
@@ -38,9 +38,7 @@ export async function notionToMarkdownAction(
       },
     };
   }
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-  });
+  const user = await DB.getUserFromId(userId);
   const notionAuthToken = user?.notion_token;
   if (!notionAuthToken) {
     return {

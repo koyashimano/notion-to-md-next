@@ -1,5 +1,22 @@
 import { DefaultSession } from "next-auth";
 
+export type User = {
+  id: string;
+  email: string;
+  name: string;
+  password: string;
+  notion_token?: string;
+  NotionAuthState?: NotionAuthState;
+};
+
+export type NotionAuthState = {
+  id: string;
+  user_id: string;
+  state: string;
+  created_at: Date;
+  user: User;
+};
+
 export type State = {
   data?: {
     url?: string;

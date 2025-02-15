@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/db";
+import DB from "@/db";
 import { SignUpState } from "@/types";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
@@ -34,7 +34,7 @@ export async function signUpAction(
   const { email, name, password } = validated.data;
 
   try {
-    const existingUser = await prisma.user.findFirst({ where: { email } });
+    const existingUser = await DB.getUserFromEmail(email);
     if (existingUser) {
       return {
         data: validated.data,
@@ -44,12 +44,10 @@ export async function signUpAction(
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await prisma.user.create({
-      data: {
-        email,
-        name,
-        password: hashedPassword,
-      },
+    await DB.createUser({
+      email,
+      name,
+      password: hashedPassword,
     });
   } catch {
     return {

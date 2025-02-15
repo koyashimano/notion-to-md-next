@@ -5,18 +5,17 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "postinstall": "prisma generate && prisma migrate deploy",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
-    "@prisma/client": "^6.3.0",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "markdown-table": "^3.0.4",
     "next": "15.1.6",
     "next-auth": "^4.24.11",
+    "pg": "^8.13.3",
     "prettier": "^3.4.2",
     "puppeteer-core": "^24.2.0",
     "react": "^19.0.0",
@@ -33,13 +32,13 @@
     "@eslint/eslintrc": "^3",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
+    "@types/pg": "^8.11.11",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
     "eslint-plugin-tailwindcss": "^3.18.0",
     "postcss": "^8",
-    "prisma": "^6.3.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

@@ -16,9 +16,6 @@ RUN fc-cache -fv
 
 ENV CHROME_EXECUTABLE_PATH=/usr/bin/chromium
 
-# COPY .env .env
-COPY prisma/schema.prisma ./prisma/
-
 COPY package*.json ./
 RUN npm install
 

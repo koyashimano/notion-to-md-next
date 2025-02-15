@@ -1,7 +1,7 @@
 "use server";
 
 import { authOptions } from "@/auth";
-import { prisma } from "@/db";
+import DB from "@/db";
 import { randomBytes } from "crypto";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
@@ -15,15 +15,7 @@ export default async function notionAuth() {
   }
 
   const state = randomBytes(16).toString("hex");
-  await prisma.notionAuthState.deleteMany({
-    where: { user: { id: userId } },
-  });
-  await prisma.notionAuthState.create({
-    data: {
-      user: { connect: { id: userId } },
-      state,
-    },
-  });
+  await DB.deleteAndCreateNotionAuthState(userId, state);
 
   const notionAuthUrl = new URL("https://api.notion.com/v1/oauth/authorize");
   notionAuthUrl.searchParams.set("client_id", process.env.NOTION_CLIENT_ID!);

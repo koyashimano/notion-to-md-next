@@ -1,4 +1,4 @@
-import { prisma } from "@/db";
+import DB from "@/db";
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -13,12 +13,10 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const notionAuthState = await prisma.notionAuthState.findUnique({
-    where: {
-      state: state,
-      created_at: { gt: new Date(Date.now() - 60 * 60 * 1000) },
-    },
-  });
+  const notionAuthState = await DB.getNotionAuthState(
+    state,
+    new Date(Date.now() - 60 * 60 * 1000)
+  );
   if (!notionAuthState) {
     return NextResponse.json(
       { error: "ユーザーを取得できませんでした。" },
@@ -47,11 +45,11 @@ export async function GET(request: NextRequest) {
     );
 
     const accessToken: string = response.data.access_token;
-    await prisma.user.update({
-      where: { id: notionAuthState.user_id },
-      data: { notion_token: accessToken },
-    });
-    await prisma.notionAuthState.delete({ where: { state } });
+    await DB.setNotionToken(
+      notionAuthState.user_id,
+      accessToken,
+      notionAuthState.state
+    );
 
     return NextResponse.redirect(new URL("/", request.url));
   } catch (e) {

@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-import { prisma } from "./db";
+import DB from "./db";
 
 export const authOptions = {
   pages: {
@@ -21,7 +21,7 @@ export const authOptions = {
         }
 
         const { email, password } = credentials;
-        const user = await prisma.user.findUnique({ where: { email } });
+        const user = await DB.getUserFromEmail(email);
         if (user) {
           const passwordsMatch = await bcrypt.compare(password, user.password);
           if (passwordsMatch) {

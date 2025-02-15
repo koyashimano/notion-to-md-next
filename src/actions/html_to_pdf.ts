@@ -30,6 +30,7 @@ export async function htmlToPdf(html: string, css: string) {
   });
 
   await page.close();
+  await browser.close();
 
   return pdfContent;
 }

@@ -83,11 +83,11 @@ export default function ClientPage({
             </button>
           </div>
           {!isPending && state.errors?.url && (
-            <p className="mt-2 text-sm text-gray-600">{state.errors.url}</p>
+            <p className="mt-2 text-sm text-red-600">{state.errors.url}</p>
           )}
         </label>
         {!isPending && state.errors?.noField && (
-          <p className="mt-2 text-sm text-gray-600">{state.errors.noField}</p>
+          <p className="mt-2 text-sm text-red-600">{state.errors.noField}</p>
         )}
       </form>
 

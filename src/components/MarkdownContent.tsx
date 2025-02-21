@@ -40,7 +40,7 @@ export default function MarkdownContent({
             type="text"
             value={fileName}
             onChange={(e) => setFileName(e.target.value)}
-            className="max-w-md rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            className="max-w-md rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-500 sm:text-sm"
           />
           <p
             className={

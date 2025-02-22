@@ -51,7 +51,9 @@ export async function GET(request: NextRequest) {
       notionAuthState.state
     );
 
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(
+      new URL(`${process.env.FRONTEND_ORIGIN ?? ""}/`, request.url)
+    );
   } catch (e) {
     console.error(e);
 

@@ -50,7 +50,12 @@ export default function ClientPage({
                       },
                     ]
                   : []),
-                { label: "ログアウト", onClick: () => void signOut() },
+                {
+                  label: "ログアウト",
+                  onClick: () => {
+                    void signOut().then(() => router.push("/login"));
+                  },
+                },
                 { label: "利用規約", onClick: () => router.push("/terms") },
                 {
                   label: "プライバシーポリシー",

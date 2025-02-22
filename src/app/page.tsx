@@ -6,12 +6,12 @@ import { getServerSession } from "next-auth/next";
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
-  const userId = session?.user?.id;
-  if (!userId) {
+  const userEmail = session?.user?.email;
+  if (!userEmail) {
     redirect("/login");
   }
 
-  const user = await DB.getUserFromId(userId);
+  const user = await DB.getUserFromEmail(userEmail);
   if (!user) {
     redirect("/login");
   }

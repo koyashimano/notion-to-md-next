@@ -29,8 +29,9 @@ export async function notionToMarkdownAction(
   const { url } = validated.data;
 
   const session = await getServerSession(authOptions);
-  const userId = session?.user?.id;
-  if (!userId) {
+  const userEmail = session?.user?.email;
+  const user = userEmail && (await DB.getUserFromEmail(userEmail));
+  if (!userEmail || !user) {
     return {
       data: { url },
       errors: {
@@ -38,8 +39,7 @@ export async function notionToMarkdownAction(
       },
     };
   }
-  const user = await DB.getUserFromId(userId);
-  const notionAuthToken = user?.notion_token;
+  const notionAuthToken = user.notion_token;
   if (!notionAuthToken) {
     return {
       data: { url },

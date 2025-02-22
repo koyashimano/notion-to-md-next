@@ -8,14 +8,15 @@ import { getServerSession } from "next-auth";
 
 export default async function notionAuth() {
   const session = await getServerSession(authOptions);
-  const userId = session?.user?.id;
+  const userEmail = session?.user?.email;
+  const user = userEmail && (await DB.getUserFromEmail(userEmail));
 
-  if (!userId) {
+  if (!userEmail || !user) {
     throw new Error("ユーザーが認証されていません。"); // TODO: handle errors
   }
 
   const state = randomBytes(16).toString("hex");
-  await DB.deleteAndCreateNotionAuthState(userId, state);
+  await DB.deleteAndCreateNotionAuthState(user.id, state);
 
   const notionAuthUrl = new URL("https://api.notion.com/v1/oauth/authorize");
   notionAuthUrl.searchParams.set("client_id", process.env.NOTION_CLIENT_ID!);

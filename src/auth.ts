@@ -21,7 +21,7 @@ export const authOptions = {
         }
 
         const { email, password } = credentials;
-        const user = await DB.getUserFromEmail(email);
+        const user = await DB.getUserFromEmailWithPassword(email);
         if (user) {
           const passwordsMatch = await bcrypt.compare(password, user.password);
           if (passwordsMatch) {
@@ -33,19 +33,4 @@ export const authOptions = {
       },
     }),
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      if (user?.id) {
-        token.id = user.id;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (session.user && token.id) {
-        session.user.id = token.id as string;
-      }
-      return session;
-    },
-  },
 } satisfies NextAuthOptions;
